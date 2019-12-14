@@ -23,6 +23,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -106,10 +107,16 @@ public class Controller implements Initializable {
                 try {
                     //цикл авторизации
                     while (true) {
+
                         String str = in.readUTF();
+
+
                         if (str.startsWith("/authok")) {
                             setAuthenticated(true);
                             nickname = str.split(" ")[1];
+
+                            socket.setSoTimeout(0);
+
                             break;
                         }
                         textArea.appendText(str + "\n");
@@ -169,6 +176,11 @@ public class Controller implements Initializable {
     public void tryToAuth(ActionEvent actionEvent) {
         if (socket == null || socket.isClosed()) {
             connect();
+            try {
+                socket.setSoTimeout(120000);
+            } catch (SocketException e) {
+                e.printStackTrace();
+            }
         }
 
         try {
@@ -218,6 +230,11 @@ public class Controller implements Initializable {
 
         if (socket == null || socket.isClosed()) {
             connect();
+            try {
+                socket.setSoTimeout(120000);
+            } catch (SocketException e) {
+                e.printStackTrace();
+            }
         }
         try {
             out.writeUTF(msg);

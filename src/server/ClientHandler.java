@@ -40,6 +40,7 @@ public class ClientHandler {
             new Thread(() -> {
                 try {
                     //цикл авторизации
+
                     while (true) {
                         String str = in.readUTF();
                         if (str.startsWith("/reg ")) {
@@ -50,7 +51,7 @@ public class ClientHandler {
                                 sendMsg("Ошибка: с этим логином уже Зарегистированы.");
                             } else {
                                 sendMsg("Регистрация прошла успешно.");
-                            }
+                               }
                         }
 
                         if (str.startsWith("/auth ")) {
@@ -69,6 +70,7 @@ public class ClientHandler {
                                     sendMsg("С этим логином уже авторизовались");
                                 }
                             } else {
+
                                 sendMsg("Неверный логин / пароль");
                             }
                         }
